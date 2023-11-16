@@ -3,7 +3,7 @@ layout: base
 title: Mario Player with Hills Background
 description: Early step in adding Mario into OOP Game
 type: ccc
-courses: { csse: {week: 14} }
+courses: { csse: {week: 13} }
 image: /images/gameimages/antoine.jpg
 images:
   background:
