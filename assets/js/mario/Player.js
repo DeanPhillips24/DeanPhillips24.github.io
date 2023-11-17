@@ -14,7 +14,7 @@ const PlayerAnimation = {
 
 export class Player extends Character{
     // constructors sets up Character object 
-    constructor(canvas, image, speedRatio, speed = 1, speedMultiplier = 1) {
+    constructor(canvas, image, speedRatio, speed = 0.25, speedMultiplier = 1) {
         super(
             canvas, 
             image, 
@@ -143,7 +143,7 @@ export function initPlayer(canvas, image, gameSpeed, speedRatio){
     });
 
     // Changing player's speed
-    player.speedMultiplier = 0.5;
+    player.speedMultiplier = 0.25;
 
     // Initial frame update
     requestAnimationFrame(() => player.update());
