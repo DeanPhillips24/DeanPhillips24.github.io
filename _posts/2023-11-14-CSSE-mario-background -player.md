@@ -9,7 +9,7 @@ images:
   background:
     src: /images/gameimages/antoine.jpg
   mario:
-    src: /images/mario_animation.png
+    src: /images/gameimages/lopezspritesheet3.png
 ---
 <!-- Liquid code, run by Jekyll, used to define location of asset(s) -->
 {% assign backgroundFile = site.baseurl | append: page.images.background.src %}

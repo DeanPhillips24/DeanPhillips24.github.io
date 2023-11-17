@@ -3,19 +3,20 @@ import Character from './Character.js';
 
 const PlayerAnimation = {
     // Sprite properties
-    scale: 0.33,
-    width: 256,
-    height: 256,
-    w: { row: 12, frames: 15 }, // jump key
-	a: { row: 3, frames: 7, idleFrame: { column: 7, frames: 0 } }, // Walk left key
+    scale: 1,
+    width: 46,
+    height: 52.5,
+    w: { row: 3, frames: 4, idleFrame: { column: 1, frames: 0 } }, // Lopez faces away from user
+	a: { row: 1, frames: 4, idleFrame: { column: 1, frames: 0 } }, // Walk left key
     s: { }, // no action
-	d: { row: 2, frames: 7, idleFrame: { column: 7, frames: 0 } }, // Walk right key
+	d: { row: 2, frames: 4, idleFrame: { column: 1, frames: 0 } }, // Walk right key
 }
 
 export class Player extends Character{
     // constructors sets up Character object 
-    constructor(canvas, image, speedRatio){
-        super(canvas, 
+    constructor(canvas, image, speedRatio, speed = 1, speedMultiplier = 1) {
+        super(
+            canvas, 
             image, 
             speedRatio,
             PlayerAnimation.width, 
@@ -27,6 +28,8 @@ export class Player extends Character{
         this.yVelocity = 0;
         this.stashFrame = PlayerAnimation.d;
         this.pressedDirections = {};
+        this.speedMultiplier = speedMultiplier;
+        this.speed = speed;
     }
 
     setAnimation(animation) {
@@ -76,18 +79,31 @@ export class Player extends Character{
 
     // Player perform a unique update
     update() {
+        let isMoving = false;
+
         if (this.isAnimation(PlayerAnimation.a)) {
-            this.x -= this.speed;  // Move to left
+            this.x -= this.speed * this.speedMultiplier;  // Move to left
+            isMoving = true;
         }
         if (this.isAnimation(PlayerAnimation.d)) {
-            this.x += this.speed;  // Move to right
+            this.x += this.speed * this.speedMultiplier;  // Move to right
+            isMoving = true;
         }
         if (this.isGravityAnimation(PlayerAnimation.w)) {
-            this.y -= (GameEnv.bottom * .33);  // jump 33% higher than floor
+            this.y -= (GameEnv.bottom * .1);  // jump 10% higher than floor
         } 
+
+        // Idle frame set if no movement detected
+        if (!isMoving) {
+            this.isIdle = true;
+            this.setAnimation(this.stashFrame);
+        }
 
         // Perform super update actions
         super.update();
+
+        // Next frame update
+        requestAnimationFrame(() => this.update());
     }
 
 }
@@ -95,8 +111,8 @@ export class Player extends Character{
 // Can add specific initialization parameters for the player here
 // In this case the player is following the default character initialization
 export function initPlayer(canvas, image, gameSpeed, speedRatio){
-    // Create the Player
-    var player = new Player(canvas, image, gameSpeed, speedRatio);
+    // Create the Player with an initial speed of 0.5 and speed multiplier of 0.5
+    var player = new Player(canvas, image, gameSpeed, speedRatio, 0.5, 0.5);
 
     /* Player Control 
     * changes FrameY value (selected row in sprite)
@@ -125,6 +141,12 @@ export function initPlayer(canvas, image, gameSpeed, speedRatio){
             player.setAnimation(PlayerAnimation[key]);
         }
     });
+
+    // Changing player's speed
+    player.speedMultiplier = 0.5;
+
+    // Initial frame update
+    requestAnimationFrame(() => player.update());
 
     // Player Object
     return player;
