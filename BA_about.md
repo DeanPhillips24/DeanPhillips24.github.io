@@ -6,9 +6,12 @@ permalink: /about/
 <div style="display: flex; justify-content: center; align-items: center;">
     <h1>Dean Phillips</h1> 
 </div>
+<div style="display: flex; justify-content: center; align-items: center;">
+    <img src="{{ site.baseurl}}/images/ltg.jpg" alt="ltg" style="height: 750px; width: 500px;">
+</div>
 <br><br>
 <div style="display: flex; justify-content: center; align-items: center;">
-    <p>Description</p>
+     <p>A portrait of myself.</p>
 </div>
 <br><br>
 
