@@ -17,7 +17,7 @@ permalink: /about/
 </div>
 <br><br>
 <div style="display: flex; justify-content: center; align-items: center;">
-    <p>Description</p>
+    <p>Code, Code, Code. </p>
 </div>
 <br><br>
 
