@@ -13,6 +13,10 @@ const PlayerAnimation = {
 }
 
 export class Player extends Character{
+    // Speed control consts
+    static initialSpeed = 0.25;
+    static maxSpeed = 0.50;
+    static acceleration = 0.00000005;
     // constructors sets up Character object 
     constructor(canvas, image, speedRatio, speed = 0.25, speedMultiplier = 1) {
         super(
@@ -93,6 +97,23 @@ export class Player extends Character{
             this.y -= (GameEnv.bottom * .1);  // jump 10% higher than floor
         } 
 
+        // Gradual speed increase
+        if (isMoving && this.speed < Player.maxSpeed) {
+            this.speed += Player.acceleration;
+            // Ensure speed doesn't exceed maxSpeed
+            if (this.speed > Player.maxSpeed) {
+                this.speed = Player.maxSpeed;
+            }
+
+        } else if (!isMoving && this.speed > Player.initialSpeed) {
+            // If not moving, gradually decrease speed to initial value
+            this.speed -= Player.acceleration;
+            // Ensure speed does not go below initialSpeed
+            if (this.speed < Player.initialSpeed) {
+                this.speed = Player.initialSpeed;
+            }
+        }
+
         // Idle frame set if no movement detected
         if (!isMoving) {
             this.isIdle = true;
@@ -143,7 +164,7 @@ export function initPlayer(canvas, image, gameSpeed, speedRatio){
     });
 
     // Changing player's speed
-    player.speedMultiplier = 0.25;
+    player.speedMultiplier = 0.05;
 
     // Initial frame update
     requestAnimationFrame(() => player.update());
