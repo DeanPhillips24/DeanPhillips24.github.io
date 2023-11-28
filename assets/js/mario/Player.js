@@ -43,7 +43,7 @@ export class Player extends Character{
             this.setFrameX(animation.idleFrame.column)
             this.setMinFrame(animation.idleFrame.frames);
         }
-    }i
+    }
     
     // check for matching animation
     isAnimation(key) {
@@ -86,16 +86,16 @@ export class Player extends Character{
         let isMoving = false;
 
         if (this.isAnimation(PlayerAnimation.a)) {
-            this.x -= this.speed * this.speedMultiplier;  // Move to left
+            this.x -= this.speed * this.speedMultiplier;  // Move to the left
             isMoving = true;
         }
         if (this.isAnimation(PlayerAnimation.d)) {
-            this.x += this.speed * this.speedMultiplier;  // Move to right
+            this.x += this.speed * this.speedMultiplier;  // Move to the right
             isMoving = true;
         }
         if (this.isGravityAnimation(PlayerAnimation.w)) {
-            this.y -= (GameEnv.bottom * .1);  // jump 10% higher than floor
-        } 
+            this.y -= (GameEnv.bottom * 0.1);  // Jump 10% higher than the floor
+        }   
 
         // Gradual speed increase
         if (isMoving && this.speed < Player.maxSpeed) {
@@ -159,7 +159,13 @@ export function initPlayer(canvas, image, gameSpeed, speedRatio){
                 delete player.pressedDirections[event.key];
             }
             player.isIdle = true;
-            player.setAnimation(PlayerAnimation[key]);
+            player.setAnimation(PlayerAnimation.s);
+            // Check for buttons being pressed
+            const isAnyDirectionPressed = Object.keys(player.pressedDirections).length > 0;
+            player.isIdle = !isAnyDirectionPressed;
+            if (!isAnyDirectionPressed) {
+                player.setAnimation(PlayerAnimation.s);
+            } 
         }
     });
 
@@ -168,6 +174,11 @@ export function initPlayer(canvas, image, gameSpeed, speedRatio){
 
     // Initial frame update
     requestAnimationFrame(() => player.update());
+
+    // FPS
+    const fps = 60; // Target FPS
+    const frameInterval = 1000 / fps;
+    let lastTime = performance.now();
 
     // Player Object
     return player;
