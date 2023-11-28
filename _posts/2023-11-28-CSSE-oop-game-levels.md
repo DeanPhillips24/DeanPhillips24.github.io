@@ -3,8 +3,8 @@ layout: base
 title: Dynamic Game Levels
 description: Early steps in adding levels to an OOP Game.  This includes basic animations left-right-jump, multiple background, and simple callback to terminate each level.
 type: ccc
-courses: { csse: {week: 14}, csp: {week: 14}, csa: {week: 14} }
-image: /images/platformer/backgrounds/hills.png
+courses: { csse: {week: 14} }
+image: /images/mario/hills.png
 ---
 
 <style>
@@ -31,9 +31,9 @@ image: /images/platformer/backgrounds/hills.png
 
 <script type="module">
     // Imports
-    import GameEnv from '{{site.baseurl}}/assets/js/platformer/GameEnv.js';
-    import GameLevel from '{{site.baseurl}}/assets/js/platformer/GameLevel.js';
-    import GameControl from '{{site.baseurl}}/assets/js/platformer/GameControl.js';
+    import GameEnv from '{{site.baseurl}}/assets/js/mario/GameEnv.js';
+    import GameLevel from '{{site.baseurl}}/assets/js/mario/GameLevel.js';
+    import GameControl from '{{site.baseurl}}/assets/js/mario/GameControl.js';
 
 
     /*  ==========================================
@@ -44,33 +44,33 @@ image: /images/platformer/backgrounds/hills.png
     // Define assets for the game
     var assets = {
       obstacles: {
-        tube: { src: "/images/platformer/obstacles/tube.png" },
+        tube: { src: "/images/mario/tube.png" },
       },
       platforms: {
-        grass: { src: "/images/platformer/platforms/grass.png" },
-        alien: { src: "/images/platformer/platforms/alien.png" }
+        grass: { src: "/images/mariograss.png" },
+        alien: { src: "/images/mario/alien.png" }
       },
       backgrounds: {
-        start: { src: "/images/platformer/backgrounds/home.png" },
-        hills: { src: "/images/platformer/backgrounds/hills.png" },
-        planet: { src: "/images/platformer/backgrounds/planet.jpg" },
-        castles: { src: "/images/platformer/backgrounds/castles.png" },
-        end: { src: "/images/platformer/backgrounds/game_over.png" }
+        start: { src: "/images/gameimages/antoine.jpg" },
+        hills: { src: "/images/mario/hills.png" },
+        planet: { src: "/images/gameimages/AvenidaTown_87.png" },
+        castles: { src: "/images/mario/castles.png" },
+        end: { src: "/images/mario/game_over.png" }
       },
       players: {
         mario: {
-          src: "/images/platformer/sprites/mario.png",
-          width: 256,
-          height: 256,
-          w: { row: 10, frames: 15 },
-          wa: { row: 11, frames: 15 },
-          wd: { row: 10, frames: 15 },
-          a: { row: 3, frames: 7, idleFrame: { column: 7, frames: 0 } },
+          src: "/images/gameimages/lopezspritesheet3.png",
+          width: 46,
+          height: 52.5,
+          w: { row: 3, frames: 4 },
+          wa: {}, // no action
+          wd: {}, // no action
+          a: { row: 1, frames: 4, idleFrame: { column: 1, frames: 0 } },
           s: {  },
-          d: { row: 2, frames: 7, idleFrame: { column: 7, frames: 0 } }
+          d: { row: 2, frames: 4, idleFrame: { column: 1, frames: 0 } }
         },
         monkey: {
-          src: "/images/platformer/sprites/monkey.png",
+          src: "/images/mario/monkey.png",
           width: 40,
           height: 40,
           w: { row: 9, frames: 15 },
