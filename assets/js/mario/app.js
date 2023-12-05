@@ -183,7 +183,7 @@ window.addEventListener('load', function () {
         }
 }
 
-    draw (context) {
+    draw (context) 
             context.fillStyle = 'blue'
             context.fillRect(
                 this.x,
@@ -192,10 +192,10 @@ window.addEventListener('load', function () {
                 this.height
             );
         }
-}
+
 
 customElements.define("collider-zone", ColliderZone, {extends: "div"})
-customElements.define("hit-box", HitBox, { extends: "div" });
+customElements.define("hit-box", HitBox, { extends: "div" })
 
     const backgroundImage = new BackgroundImage()
     const lopez = new Lopez();
