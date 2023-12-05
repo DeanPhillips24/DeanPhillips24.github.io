@@ -12,6 +12,8 @@ images:
     src: /images/mario/platform.png
   backgroundAlt:
     src: /images/gameimages/antoine.jpg
+  backgroundGame:
+    src: /images/gameimages/gamemario.png
   backgroundCastles:
     src: /images/gameimages/AvenidaTown_87.png
   backgroundGameOver:
@@ -24,6 +26,7 @@ images:
 {% assign platformFile = site.baseurl | append: page.images.platform.src %}
 {% assign backgroundFileAlt = site.baseurl | append: page.images.backgroundAlt.src %}
 {% assign backgroundFileCastles = site.baseurl | append: page.images.backgroundCastles.src %}
+{% assign backgroundFileGame = site.baseurl | append: page.images.backgroundGame.src %}
 {% assign backgroundFileGameOver = site.baseurl | append: page.images.backgroundGameOver.src %}
 
 {% assign playerFile = site.baseurl | append: page.images.mario.src %}
@@ -84,8 +87,12 @@ images:
     levels[2].setPlayerFile(`{{playerFile}}`);
     levels[2].setNextLevel(levels[3]);
     levels[2].setIsComplete(testerCompletion);
+    // new level
+    levels[3].setPlayerFile(`{{playerFile}}`);
+    levels[3].setNextLevel(levels[3]);
+    levels[3].setIsComplete(testerCompletion);
     // mario hills, no player
-    levels[3].setBackgroundFile('{{backgroundFileGameOver}}');
+    levels[4].setBackgroundFile('{{backgroundFileGameOver}}');
 
     // create listeners
     toggleCanvasEffect.addEventListener('click', GameEnv.toggleInvert);
