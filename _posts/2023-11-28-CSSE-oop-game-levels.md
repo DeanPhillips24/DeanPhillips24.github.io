@@ -31,9 +31,10 @@ image: /images/mario/hills.png
 
 <script type="module">
     // Imports
-    import GameEnv from '{{site.baseurl}}/assets/js/mario/GameEnv.js';
-    import GameLevel from '{{site.baseurl}}/assets/js/mario/GameLevel.js';
-    import GameControl from '{{site.baseurl}}/assets/js/mario/GameControl.js';
+    import GameEnv from '{{site.baseurl}}/assets/js/GameEnv.js';
+    import GameLevel from '{{site.baseurl}}/assets/js/GameLevel.js';
+    import GameControl from '{{site.baseurl}}/assets/js/GameControl.js';
+    import goomba from '{{ site.baseurl }}/assets/js/Goomba.js';
 
 
     /*  ==========================================
@@ -43,12 +44,22 @@ image: /images/mario/hills.png
 
     // Define assets for the game
     var assets = {
+      enemies: {
+        goomba: {
+          src: "/images/mario/goomba.png",
+          width: 448,
+          hegiht: 452,
+        }
+      },
       obstacles: {
         tube: { src: "/images/mario/tube.png" },
       },
       platforms: {
-        grass: { src: "/images/mariograss.png" },
-        alien: { src: "/images/mario/alien.png" }
+        grass: { src: "/images/mario/grass.png" },
+        alien: { src: "/images/mario/alien.png" },
+      },
+      platformO: {
+        grass: {src: "/images/mario/brick_wall.png"},
       },
       backgrounds: {
         start: { src: "/images/gameimages/antoine.jpg" },
@@ -59,28 +70,20 @@ image: /images/mario/hills.png
       },
       players: {
         mario: {
-          src: "/images/gameimages/lopezspritesheet3.png",
+          src: "/images/gameimages/lopezanimation.png",
           width: 46,
           height: 52.5,
           w: { row: 3, frames: 4 },
-          wa: {}, // no action
+          wa: { idleFrame: {column: 1, frames: 0} }, // no action
           wd: {}, // no action
           a: { row: 1, frames: 4, idleFrame: { column: 1, frames: 0 } },
           s: {  },
           d: { row: 2, frames: 4, idleFrame: { column: 1, frames: 0 } }
-        },
-        monkey: {
-          src: "/images/mario/monkey.png",
-          width: 40,
-          height: 40,
-          w: { row: 9, frames: 15 },
-          wa: { row: 9, frames: 15 },
-          wd: { row: 9, frames: 15 },
-          a: { row: 1, frames: 15, idleFrame: { column: 7, frames: 0 } },
-          s: { row: 12, frames: 15 },
-          d: { row: 0, frames: 15, idleFrame: { column: 7, frames: 0 } }
         }
-      }
+      },
+      things: {
+        coin: {src: "/images/gameimages/Coin.png"},
+      },
     };
 
     // add File to assets, ensure valid site.baseurl
@@ -163,7 +166,7 @@ image: /images/mario/hills.png
     new GameLevel( {tag: "start", callback: startGameCallback } );
     new GameLevel( {tag: "home", background: assets.backgrounds.start, callback: homeScreenCallback } );
     // Game screens
-    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, platform: assets.platforms.grass, player: assets.players.mario, tube: assets.obstacles.tube, callback: testerCallBack } );
+    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, platform: assets.platforms.grass, platformO: assets.platformO.grass, player: assets.players.mario, enemy: assets.enemies.goomba, tube: assets.obstacles.tube, callback: testerCallBack, thing: assets.things.coin, } );
     new GameLevel( {tag: "alien", background: assets.backgrounds.planet, platform: assets.platforms.alien, player: assets.players.monkey, callback: testerCallBack } );
     // Game Over screen
     new GameLevel( {tag: "end", background: assets.backgrounds.end, callback: gameOverCallBack } );
@@ -176,6 +179,36 @@ image: /images/mario/hills.png
     // create listeners
     toggleCanvasEffect.addEventListener('click', GameEnv.toggleInvert);
     window.addEventListener('resize', GameEnv.resize);
+
+    // Check if buttons are pressed
+    function checkButtonsPressed() {
+      const keysPressed = Object.keys(GameEnv.player.pressedKeys);
+      return keysPressed.length > 0;
+    }
+
+    // Modification to game loop
+    function gameLoop() {
+      // Check if any buttons are pressed
+      const buttonsPressed = checkButtonsPressed();
+
+      // Determine the frame based on button state
+      let frame;
+      if(buttonssPressed) {
+        // Logic to determine the frame when button is being pressed
+        const currentKey = Object.keys(GameEnv.player.pressedKeys)[0];
+
+        // Use animation frame based on key pressed
+        frame = GameEnv.currentLevel.player.playerData[currentKey].idleFrame || GameEnv.currentLevel.player.playerData[currentKey].frames[0];
+      } else {
+        frame = GameEnv.currentLevel.player.wa.idleFrame;
+      }
+      
+      // Update player frame
+      GameEnv.currentLevel.player.currentFrame = frame;
+
+      // Repeat game loop
+      requestAnimationFrame(gameLoop);
+      }
 
     // start game
     GameControl.gameLoop();
