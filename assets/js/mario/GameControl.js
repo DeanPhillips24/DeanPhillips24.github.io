@@ -38,23 +38,28 @@ const GameControl = {
             // Get current level
             GameEnv.update();
             const currentLevel = GameEnv.currentLevel;
-
+            
+            // Check if GameEnv.levels is defined and not empty
+            if(GameEnv.levels && GameEnv.levels.length > 0) {
             // currentLevel is defined
-            if (currentLevel) {
-                // run the isComplete callback function
-                if (currentLevel.isComplete && currentLevel.isComplete()) {
-                    const currentIndex = GameEnv.levels.indexOf(currentLevel);
-                    // next index is in bounds
-                    if (currentIndex !== -1 && currentIndex + 1 < GameEnv.levels.length) {
-                        // transition to the next level
-                        this.transitionToLevel(GameEnv.levels[currentIndex + 1]);
-                    } 
+                if (currentLevel) {
+                    // run the isComplete callback function
+                    if (currentLevel.isComplete && currentLevel.isComplete()) {
+                        const currentIndex = GameEnv.levels.indexOf(currentLevel);
+                        // next index is in bounds
+                        if (currentIndex !== -1 && currentIndex + 1 < GameEnv.levels.length) {
+                            // transition to the next level
+                            this.transitionToLevel(GameEnv.levels[currentIndex + 1]);
+                        } 
+                    }
                 }
             // currentLevel is null, (ie start or restart game)
             } else {
                 // transition to beginning of game
                 this.transitionToLevel(GameEnv.levels[0]);
             }
+        } else {
+            console.error("GameEnv.levels is not defined or is empty.")
         }
 
         // recycle gameLoop, aka recursion

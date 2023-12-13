@@ -1,7 +1,7 @@
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
 import Platform from './Platform.js';
-import { initPlayer } from './Player.js';
+import Player from './Player.js';
 
 // Store the assets and attributes of the Game at the specific GameLevel.
 class GameLevel {
