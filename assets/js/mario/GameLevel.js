@@ -1,36 +1,25 @@
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
 import Platform from './Platform.js';
+import PlatformO from './PlatformO.js';
+import Thing1 from './Thing1.js';
 import Player from './Player.js';
+import Tube from './Tube.js';
 
 // Store the assets and attributes of the Game at the specific GameLevel.
 class GameLevel {
-    constructor() {
-        this.backgroundImg = null;
-        this.platformImg = null;
-        this.playerImg = null;
-        this.nextLevel = null;
-        this.isComplete = null; // function that determines if level is complete
-    }
-
-    setBackgroundFile(file) {
-        this.backgroundImg = file;
-    }
-
-    setPlatformFile(file) {
-        this.platformImg = file;
-    }
-
-    setPlayerFile(file) {
-        this.playerImg = file;
-    }
-
-    setNextLevel(gameLvl) {
-        this.nextLevel = gameLvl;
-    }
-
-    setIsComplete(callBack) {
-        this.isComplete = callBack;
+    constructor(gameObject) {
+        // conditional assignments from GameObject to instance variables
+        this.tag = gameObject?.tag;
+        this.backgroundImg = gameObject.background?.file;
+        this.platformImg = gameObject.platform?.file;
+        this.platformOImg = gameObject.platformO?.file;
+        this.thingImg = gameObject.thing?.file; 
+        this.playerImg = gameObject.player?.file;
+        this.playerData = gameObject?.player;
+        this.tubeImg = gameObject.tube?.file;
+        this.isComplete = gameObject?.callback; // function that determines if level is complete
+        GameEnv.levels.push(this);
     }
 
     // Load level data
@@ -47,6 +36,16 @@ class GameLevel {
         if (this.playerImg) {
             imagesToLoad.push(this.loadImage(this.playerImg));
         }
+        if (this.tubeImg) {
+            imagesToLoad.push(this.loadImage(this.tubeImg));
+        }
+        if (this.thingImg) {
+            imagesToLoad.push(this.loadImage(this.thingImg));
+        }
+        if (this.platformOImg) {
+            imagesToLoad.push(this.loadImage(this.platformOImg));
+        }
+        
 
         try {
             // Do not proceed until images are loaded
@@ -76,10 +75,37 @@ class GameLevel {
             // Prepare HTML with Player Canvas (if playerImg is defined)
             if (this.playerImg) {
                 const playerCanvas = document.createElement("canvas");
-                playerCanvas.id = "characters";
+                playerCanvas.id = "character";
                 document.querySelector("#canvasContainer").appendChild(playerCanvas);
                 const playerSpeedRatio = 0.7;
-                GameEnv.player = initPlayer(playerCanvas, loadedImages[i], playerSpeedRatio);
+                new Player(playerCanvas, loadedImages[i], playerSpeedRatio, this.playerData);
+                i++;
+            }
+
+            // Prepare HTML with Player Canvas (if playerImg is defined)
+            if (this.tubeImg) {
+                const tubeCanvas = document.createElement("canvas");
+                tubeCanvas.id = "tube";
+                document.querySelector("#canvasContainer").appendChild(tubeCanvas);
+                new Tube(tubeCanvas, loadedImages[i]);
+                i++;
+            }
+                
+            if (this.thingImg) {
+                const platformCanvas = document.createElement("canvas");
+                platformCanvas.id = "thing2";
+                document.querySelector("#canvasContainer").appendChild(platformCanvas);
+                const platformSpeedRatio = 0;
+                new Thing1(platformCanvas, loadedImages[i], platformSpeedRatio);
+                i++;
+            }
+
+            if (this.platformOImg) {
+                const platformCanvas = document.createElement("canvas");
+                platformCanvas.id = "jumpPlatform";
+                document.querySelector("#canvasContainer").appendChild(platformCanvas);
+                const platformSpeedRatio = 0;
+                new PlatformO(platformCanvas, loadedImages[i], platformSpeedRatio);
                 i++;
             }
 
@@ -98,10 +124,6 @@ class GameLevel {
             image.onerror = reject;
         });
     }
-
-    // Generate level elements
-    generate() { /* Generate level elements */ }
-    // Additional level-specific methods
 }
 
 export default GameLevel;
