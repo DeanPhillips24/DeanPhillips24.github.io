@@ -31,24 +31,20 @@ export class Platform extends GameObject {
     */ 
     size() {
         // Update canvas size
-        const ADJUST = 0.2
+        const scaledHeight = GameEnv.backgroundHeight / 6;
 
         const canvasWidth = GameEnv.innerWidth;
         const canvasHeight = canvasWidth / this.aspect_ratio;
         const canvasLeft = 0;
-        GameEnv.platformHeight = canvasHeight * ADJUST;
+        GameEnv.platformHeight = scaledHeight;
     
-
         this.canvas.width = this.width;
-        this.canvas.height = this.height / ADJUST;
+        this.canvas.height = this.height;
         this.canvas.style.width = `${canvasWidth}px`;
-        this.canvas.style.height = `${canvasHeight}px`;
+        this.canvas.style.height = `${GameEnv.platformHeight}px`;
         this.canvas.style.position = 'absolute';
-        this.canvas.style.top = `${GameEnv.bottom}px`; 
         this.canvas.style.left = `${canvasLeft}px`;
-
-        // set bottom of game to new background height
-        GameEnv.setFloor();
+        this.canvas.style.top = `${GameEnv.bottom}px`; 
     }
 }
 
