@@ -73,6 +73,17 @@ image: /images/mario/hills.png
       },
       players: {
         mario: {
+          src: "/images/mario_animation.png",
+          width: 256,
+          height: 256,
+          w: { row: 10, frames: 15 },
+          wa: { row: 11, frames: 15 },
+          wd: { row: 10, frames: 15 },
+          a: { row: 3, frames: 7, idleFrame: { column: 7, frames: 0 } },
+          s: {  },
+          d: { row: 2, frames: 7, idleFrame: { column: 7, frames: 0 } }
+        },
+        lopez: {
           src: "/images/gameimages/lopezanimation.png",
           width: 46,
           height: 52.5,
@@ -82,7 +93,18 @@ image: /images/mario/hills.png
           runningLeft: { row: 5, frames: 4, idleFrame: {column: 1, frames: 0} },
           runningRight: { row: 4, frames: 4, idleFrame: {column: 1, frames: 0} },
           s: {},
-        }
+        },
+        monkey: {
+          src: "/images/monkey.png",
+          width: 40,
+          height: 40,
+          w: { row: 9, frames: 15 },
+          wa: { row: 9, frames: 15 },
+          wd: { row: 9, frames: 15 },
+          a: { row: 1, frames: 15, idleFrame: { column: 7, frames: 0 } },
+          s: { row: 12, frames: 15 },
+          d: { row: 0, frames: 15, idleFrame: { column: 7, frames: 0 } },
+        },
       },
       things: {
         coin: {src: "/images/mario/Coin.png"},
